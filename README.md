@@ -1,2 +1,1 @@
 # sdis-projeto1
-Projeto 1 - Sistemas Distribuídos
