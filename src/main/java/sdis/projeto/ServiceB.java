@@ -9,9 +9,6 @@ public class ServiceB {
     private static final String FILA_PEDIDO = "fila_search";
     private static final String FILA_RESPOSTA = "fila_respostas";
 
-
-
-
     public static void main(String[] args) throws Exception {
 
         ConnectionFactory factory = new ConnectionFactory();

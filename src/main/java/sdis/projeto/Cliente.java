@@ -19,7 +19,6 @@ public class Cliente {
         channel.queueDeclare(FILA_FULL, false, false, false, null);
         channel.queueDeclare(FILA_SEARCH, false, false, false, null);
 
-
         String msgFull = "start_full";
         channel.basicPublish("", FILA_FULL, null, msgFull.getBytes());
         System.out.println("Cliente: enviei pedido de FULL TRANSCRIPT!");
