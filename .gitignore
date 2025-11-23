@@ -31,3 +31,6 @@ replay_pid*
 /log/
 release.properties
 dependency-reduced-pom.xml
+
+# Intelij
+.idea/
