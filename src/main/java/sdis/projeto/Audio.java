@@ -2,6 +2,7 @@ package sdis.projeto;
 
 public class Audio{
 	
+	private String language_code = "pt";
 	private String audio_url;
 	private String id;
 
@@ -15,6 +16,14 @@ public class Audio{
 
 	public void setId(String id){
 		this.id = id;
+	}
+
+	public String getLanguageCode(){
+		return language_code;
+	}
+
+	public void setLanguageCode(String language_code){
+		this.language_code = language_code;
 	}
 
 }
