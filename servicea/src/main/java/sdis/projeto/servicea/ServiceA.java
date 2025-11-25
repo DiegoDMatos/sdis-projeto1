@@ -13,14 +13,13 @@ public class ServiceA {
         factory.setPort(5672);
         factory.setUsername("admin");
         factory.setPassword("admin");
-        // Connection connection = factory.newConnection();
 
         Connection connection = null;
         while (connection == null) {
             try {
                 connection = factory.newConnection();
             } catch (Exception e) {
-                System.out.println("RabbitMQ não pronto, tentando novamente...");
+                System.out.println("RabbitMQ ainda não pronto, tentando novamente");
                 Thread.sleep(2000);
             }
         }

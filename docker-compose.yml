@@ -1,28 +1,24 @@
 services:
 
-  # 🐰 RabbitMQ - broker de mensagens
   rabbitmq:
     image: rabbitmq:3.13-management
     container_name: rabbitmq
     ports:
-      - "5672:5672"      # porta AMQP
-      - "15672:15672"    # painel de administração
+      - "5672:5672"
+      - "15672:15672"
     environment:
       RABBITMQ_DEFAULT_USER: admin
       RABBITMQ_DEFAULT_PASS: admin
 
-  # 🔹 servicea - microserviço Java
   servicea:
     build: ./servicea
     container_name: servicea
     depends_on:
       - rabbitmq
-    # Comando de inicialização espera RabbitMQ antes de rodar
     entrypoint: ["./wait-for-it.sh", "rabbitmq:5672", "--timeout=30", "--", "java", "-jar", "app.jar"]
     ports:
       - "8081:8081"
 
-  # 🔹 serviceb - outro microserviço Java
   serviceb:
     build: ./serviceb
     container_name: serviceb
@@ -32,7 +28,6 @@ services:
     ports:
       - "8082:8082"
 
-  # 🔹 clientejava - envia mensagens para RabbitMQ
   clientejava:
     build: ./clientejava
     container_name: clientejava

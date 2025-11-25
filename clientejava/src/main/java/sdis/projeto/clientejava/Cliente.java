@@ -16,7 +16,6 @@ public class Cliente {
         factory.setPort(5672);
         factory.setUsername("admin");
         factory.setPassword("admin");
-        // Connection connection = factory.newConnection();
 
         Connection connection = null;
         while (connection == null) {
