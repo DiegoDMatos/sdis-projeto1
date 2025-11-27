@@ -7,7 +7,7 @@ import com.rabbitmq.client.*;
 public class ServiceB {
 
     private static final String FILA_PEDIDO = "fila_search";
-    private static final String FILA_RESPOSTA = "fila_respostas";
+    private static final String FILA_RESPOSTA = "fila_resposta";
 
     public static void main(String[] args) throws Exception {
 
@@ -41,9 +41,13 @@ public class ServiceB {
             SearchWord sw = new SearchWord();
             sw.run();
 
+            String resposta = sw.swHandler.getResult();
+
+            /*
             Gson gson = new Gson();
             JsonElement swHandler = null;
             String resposta = gson.toJson(swHandler);
+            */
             channel.basicPublish("", FILA_RESPOSTA, null, resposta.getBytes());
         };
 

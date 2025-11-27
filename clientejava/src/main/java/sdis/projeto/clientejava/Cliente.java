@@ -1,13 +1,12 @@
 package sdis.projeto.clientejava;
 
-import com.rabbitmq.client.Channel;
-import com.rabbitmq.client.Connection;
-import com.rabbitmq.client.ConnectionFactory;
+import com.rabbitmq.client.*;
 
 public class Cliente {
 
     private static final String FILA_FULL = "fila_full";
     private static final String FILA_SEARCH = "fila_search";
+    private static final String FILA_RESPOSTA = "fila_resposta";
 
     public static void main(String[] args) throws Exception {
 
@@ -26,22 +25,28 @@ public class Cliente {
                 Thread.sleep(2000);
             }
         }
-        
+
         Channel channel = connection.createChannel();
 
         channel.queueDeclare(FILA_FULL, false, false, false, null);
         channel.queueDeclare(FILA_SEARCH, false, false, false, null);
+        channel.queueDeclare(FILA_RESPOSTA, false, false, false, null);
 
-        String msgFull = "start_full";
-        channel.basicPublish("", FILA_FULL, null, msgFull.getBytes());
+        AMQP.BasicProperties props = new AMQP.BasicProperties.Builder()
+                .replyTo(FILA_RESPOSTA)
+                .build();
+
+        channel.basicPublish("", FILA_FULL, props, "start_full".getBytes());
         System.out.println("Cliente: enviei pedido de FULL TRANSCRIPT!");
 
-
-        String msgSearch = "start_search";
-        channel.basicPublish("", FILA_SEARCH, null, msgSearch.getBytes());
+        channel.basicPublish("", FILA_SEARCH, props, "start_search".getBytes());
         System.out.println("Cliente: enviei pedido de SEARCH WORD!");
 
-        channel.close();
-        connection.close();
+        System.out.println("Cliente aguardando respostas...");
+
+        channel.basicConsume(FILA_RESPOSTA, true, (consumerTag, message) -> {
+            String resposta = new String(message.getBody());
+            System.out.println("nova resposta recebida: " + resposta);
+        }, consumerTag -> {});
     }
 }

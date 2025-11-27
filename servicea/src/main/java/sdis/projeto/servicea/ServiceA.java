@@ -4,7 +4,7 @@ import com.rabbitmq.client.*;
 
 public class ServiceA {
     private static final String FILA_PEDIDO = "fila_full";
-    private static final String FILA_RESPOSTA = "fila_respostas";
+    private static final String FILA_RESPOSTA = "fila_resposta";  // corrigido
 
     public static void main(String[] args) throws Exception {
 
@@ -36,10 +36,9 @@ public class ServiceA {
             System.out.println("Mensagem recebida no Serviço A!");
 
             FullTranscript ft = new FullTranscript();
-            ft.run(); //
+            ft.run();
 
             String resposta = ft.ftHandler.getText();
-
 
             channel.basicPublish("", FILA_RESPOSTA, null, resposta.getBytes());
         };
@@ -47,4 +46,3 @@ public class ServiceA {
         channel.basicConsume(FILA_PEDIDO, true, callback, consumerTag -> { });
     }
 }
-

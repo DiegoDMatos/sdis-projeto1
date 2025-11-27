@@ -39,7 +39,6 @@ public class SearchWord implements Runnable {
             swHandler = gson.fromJson(getResponse.body(), SearchWordHandler.class);
 
             if(getResponse.statusCode() == 200){
-                insertWordAppearences();
                 break;
             }
 
@@ -53,20 +52,26 @@ public class SearchWord implements Runnable {
 
     }
 
-    public void insertWordAppearences(){
+    public void insertWordAppearences(String word){
+
+        String text = "";
 
         if(swHandler.matches.size() == 0) {
-            System.out.println("Nao existem ocorrencias dessa palavra no audio");
+            System.out.println("Nao existem ocorrencias dessa palavra no audio\n");
             return;
         }
+
+        text += "Resultados da busca pela palavra: " + word;
 
         for(Match m : swHandler.matches){
             for (double[] ts : m.timestamps) {
                 double time = ts[0] / 1000;
                 swHandler.wordAppearences.add(time);
-                System.out.println("encontrado -> " + time + "s");
+                text += "\nencontrado -> " + time + "s";
             }
         }
+
+        swHandler.setResult(text);
 
     }
 
@@ -81,6 +86,7 @@ public class SearchWord implements Runnable {
         String endpointGet = "transcript/" + audio.getId() + "/word-search?words=" + word;
 
         generateSearch(endpointGet);
+        insertWordAppearences(word);
 
 	}
 
