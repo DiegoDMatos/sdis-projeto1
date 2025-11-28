@@ -44,6 +44,14 @@ public class Cliente {
 
         System.out.println("Cliente aguardando respostas...");
 
+        new Thread(() -> {
+            int contador = 0;
+            while (true) {
+                System.out.println("Contador: " + contador++);
+                try { Thread.sleep(500); } catch (Exception e) {}
+            }
+        }).start();
+
         channel.basicConsume(FILA_RESPOSTA, true, (consumerTag, message) -> {
             String resposta = new String(message.getBody());
             System.out.println("nova resposta recebida: " + resposta);

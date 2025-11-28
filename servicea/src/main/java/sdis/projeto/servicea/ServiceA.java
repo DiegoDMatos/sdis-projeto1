@@ -4,7 +4,7 @@ import com.rabbitmq.client.*;
 
 public class ServiceA {
     private static final String FILA_PEDIDO = "fila_full";
-    private static final String FILA_RESPOSTA = "fila_resposta";  // corrigido
+    private static final String FILA_RESPOSTA = "fila_resposta";
 
     public static void main(String[] args) throws Exception {
 
